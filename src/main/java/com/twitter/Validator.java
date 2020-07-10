@@ -1,5 +1,6 @@
 package com.twitter;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,19 +21,23 @@ public class Validator {
 		Set<String> approverSet = new HashSet<String>(Arrays.asList(approvers));
 		for (String changedFile : changedFiles) {
 
+			System.out.println(changedFile);
 			String dirName = Utils.getFileObject(changedFile).getParent();
 			
 			System.out.println(dirName);
 
 			// Check for owners in the changed File directory
-			if (checkOwners(directoryMap.get(dirName).owners, approverSet))
+			if (!checkOwners(dirName, approverSet, directoryMap))
 				return false;
 
 			Set<Directory> visited = new HashSet<Directory>();
 			visited.add(directoryMap.get(dirName));
+			
+			System.out.println(visited);
+			System.out.println(directoryMap.get(dirName).dependencies);
 
 			// Check for owners in the dependencies of changed File
-			if (!dfs(directoryMap.get(dirName).dependencies, visited, approverSet))
+			if (!dfs(dirName, visited, approverSet, directoryMap))
 				return false;
 		}
 
@@ -47,16 +52,16 @@ public class Validator {
 	 * @param approverSet
 	 * @return
 	 */
-	private boolean dfs(Set<Directory> dependencies, Set<Directory> visited, Set<String> approverSet) {
+	private boolean dfs(String dir, Set<Directory> visited, Set<String> approverSet, Map<String, Directory> directoryMap) {
 
-		for (Directory dependency : dependencies) {
+		for (Directory dependency : directoryMap.get(dir).dependencies) {
 			if (visited.contains(dependency))
 				continue;
 
 			visited.add(dependency);
-			if (checkOwners(dependency.owners, approverSet))
+			if (!checkOwners(dir, approverSet, directoryMap))
 				return false;
-			if (!dfs(dependency.dependencies, visited, approverSet))
+			if (!dfs(dependency.name, visited, approverSet, directoryMap))
 				return false;
 		}
 
@@ -67,12 +72,27 @@ public class Validator {
 	 * Check whether approvers are in owners Set of each dependency.
 	 * @param ownersSet
 	 * @param approverSet
+	 * @param directoryMap 
 	 * @return
 	 */
-	private boolean checkOwners(Set<String> ownersSet, Set<String> approverSet) {
+	private boolean checkOwners(String dir, Set<String> approverSet, Map<String, Directory> directoryMap) {
+		System.out.println(directoryMap.get(dir));
+		if(directoryMap.get(dir) == null)
+			return false;
+		
+		Set<String> ownersSet = directoryMap.get(dir).owners;
+		
 		Set<String> owners = new HashSet<String>();
 		owners.addAll(ownersSet);
 		owners.retainAll(approverSet); // intersection
-		return owners.isEmpty();
+		
+		System.out.println(owners);
+		
+		if(owners.isEmpty()) {
+			if(dir.lastIndexOf(File.separator) != -1)
+				return checkOwners(dir.substring(0, dir.lastIndexOf(File.separator)), approverSet, directoryMap);
+		}
+			
+		return true;
 	}
 }
