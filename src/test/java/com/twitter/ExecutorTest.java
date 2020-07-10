@@ -47,7 +47,7 @@ public class ExecutorTest {
 
 	@Test
 	public void testExecutor() throws Exception {
-		Assert.assertEquals(executor.execute(approversData, filesData), expected);
+		Assert.assertEquals(expected, executor.execute(approversData, filesData));
 	}
 
 }

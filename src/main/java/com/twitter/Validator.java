@@ -50,11 +50,12 @@ public class Validator {
 			Map<String, Directory> directoryMap) {
 
 		for (Directory dependency : directoryMap.get(dir).dependencies) {
+			
 			if (visited.contains(dependency))
 				continue;
 
 			visited.add(dependency);
-			if (!checkOwners(dir, approverSet, directoryMap))
+			if (!checkOwners(dependency.name, approverSet, directoryMap))
 				return false;
 			if (!dfs(dependency.name, visited, approverSet, directoryMap))
 				return false;
@@ -79,7 +80,7 @@ public class Validator {
 		Set<String> owners = new HashSet<String>();
 		owners.addAll(directoryMap.get(dir).owners);
 		owners.retainAll(approverSet); // intersection
-
+		
 		return !owners.isEmpty() ? true
 				: dir.lastIndexOf(File.separator) != -1
 						&& checkOwners(dir.substring(0, dir.lastIndexOf(File.separator)), approverSet, directoryMap);

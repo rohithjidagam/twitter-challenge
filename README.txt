@@ -9,12 +9,15 @@ This challenge implements a simplified version of the approval system.
 
 ## Requirements
 Java 8, Maven
-Maven installation:  https://mkyong.com/maven/how-to-install-maven-in-windows/
+
+Maven installation:  
+Windows: https://mkyong.com/maven/how-to-install-maven-in-windows/
+Mac: brew install maven
 
 ## Install
 1. Clone the repo (twitter-challenge)
 2. cd twitter-challenge
-3. Note: The repo_root (given by Twitter) with src, tests and OWNERS file should reside in the twitter-challenge repo (like given in this jar file)
+3. Note: The repo_root (given by Twitter) with src, tests and OWNERS file should reside in the twitter-challenge repo (like given in this zip file)
 4. Build:> "mvn clean install"
 5. Generate jar file:> "mvn clean package assembly:single" - this generates validate_approvals.jar in twitter-challenge\target folder
 
@@ -23,10 +26,9 @@ Note: The jar file already generated in the target folder.
 ## Testing
 
 * cd twitter-challenge
-
 * For automated testing, Run
 	1) mvn -Dtest="com.twitter.*Test" test
-	
+* Integration Test: ExecutorTest.java, Rest all are unit tests
 * For manual testing, Run
   1) java -jar target/validate_approvals.jar --approvers alovelace,ghopper --changed-files src/com/twitter/follow/Follow.java,src/com/twitter/user/User.java
   2) java -jar target/validate_approvals.jar --approvers alovelace --changed-files src/com/twitter/follow/Follow.java
