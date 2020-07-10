@@ -17,9 +17,8 @@ public class DependencyGenerator {
 	 *  x/
     	 DEPENDENCIES = "y\n"
         y/
-	 * 
-	 * The owners of the parent directory can approve any of its child sub directories.
-	 * So, at each level, the owners are passed down and added directly at that node, in order to save time when finding parents owners.
+        
+        If there are owners in a folder, they are added to that Directory object
 	 * 
 	 * @param path
 	 * @param directoryMap
@@ -37,22 +36,15 @@ public class DependencyGenerator {
 					String key = Utils.getAbsolutePath(Constants.REPO_ROOT, dep);
 
 					directoryMap.putIfAbsent(key, new Directory(key));
-					directoryMap.putIfAbsent(path, new Directory(path));
 					directoryMap.get(key).dependencies.add(directoryMap.get(path));
 				}
 			} else if (file.isFile() && file.getName().contains(Constants.OWNERS)) {
 				// add owners
-				directoryMap.putIfAbsent(path, new Directory(path));
 				directoryMap.get(path).owners.addAll(Utils.readFile(file));
 			} else if (file.isDirectory()) {
 				String dirName = Utils.getAbsolutePath(path, file.getName());
 				directoryMap.putIfAbsent(dirName, new Directory(dirName));
 				
-				// Add parents owners to child sub directories
-				if (directoryMap.get(path) != null && !directoryMap.get(path).owners.isEmpty()) {
-					directoryMap.get(dirName).owners.addAll(directoryMap.get(path).owners);
-				}
-
 				// recurse for sub directories
 				populateDependencies(Utils.getAbsolutePath(path, file.getName()), directoryMap);
 			}

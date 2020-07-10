@@ -21,10 +21,7 @@ public class Validator {
 		Set<String> approverSet = new HashSet<String>(Arrays.asList(approvers));
 		for (String changedFile : changedFiles) {
 
-			System.out.println(changedFile);
 			String dirName = Utils.getFileObject(changedFile).getParent();
-			
-			System.out.println(dirName);
 
 			// Check for owners in the changed File directory
 			if (!checkOwners(dirName, approverSet, directoryMap))
@@ -32,9 +29,6 @@ public class Validator {
 
 			Set<Directory> visited = new HashSet<Directory>();
 			visited.add(directoryMap.get(dirName));
-			
-			System.out.println(visited);
-			System.out.println(directoryMap.get(dirName).dependencies);
 
 			// Check for owners in the dependencies of changed File
 			if (!dfs(dirName, visited, approverSet, directoryMap))
@@ -52,7 +46,8 @@ public class Validator {
 	 * @param approverSet
 	 * @return
 	 */
-	private boolean dfs(String dir, Set<Directory> visited, Set<String> approverSet, Map<String, Directory> directoryMap) {
+	private boolean dfs(String dir, Set<Directory> visited, Set<String> approverSet,
+			Map<String, Directory> directoryMap) {
 
 		for (Directory dependency : directoryMap.get(dir).dependencies) {
 			if (visited.contains(dependency))
@@ -70,29 +65,23 @@ public class Validator {
 
 	/**
 	 * Check whether approvers are in owners Set of each dependency.
+	 * If not, recurse for each parent and check owners
+	 * 
 	 * @param ownersSet
 	 * @param approverSet
-	 * @param directoryMap 
+	 * @param directoryMap
 	 * @return
 	 */
 	private boolean checkOwners(String dir, Set<String> approverSet, Map<String, Directory> directoryMap) {
-		System.out.println(directoryMap.get(dir));
-		if(directoryMap.get(dir) == null)
+		if (directoryMap.get(dir) == null)
 			return false;
-		
-		Set<String> ownersSet = directoryMap.get(dir).owners;
-		
+
 		Set<String> owners = new HashSet<String>();
-		owners.addAll(ownersSet);
+		owners.addAll(directoryMap.get(dir).owners);
 		owners.retainAll(approverSet); // intersection
-		
-		System.out.println(owners);
-		
-		if(owners.isEmpty()) {
-			if(dir.lastIndexOf(File.separator) != -1)
-				return checkOwners(dir.substring(0, dir.lastIndexOf(File.separator)), approverSet, directoryMap);
-		}
-			
-		return true;
+
+		return !owners.isEmpty() ? true
+				: dir.lastIndexOf(File.separator) != -1
+						&& checkOwners(dir.substring(0, dir.lastIndexOf(File.separator)), approverSet, directoryMap);
 	}
 }

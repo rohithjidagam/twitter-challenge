@@ -1,6 +1,5 @@
 package com.twitter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,13 +35,8 @@ public class Executor {
 			throw new Exception("Error in population Dependencies", e);
 		}
 		
-		System.out.println(directoryMap);
-		
 		String[] approvers = approversData.split(Constants.INPUT_SEPARATOR);
 		String[] changedFiles = filesData.split(Constants.INPUT_SEPARATOR);
-		
-		System.out.println(Arrays.deepToString(changedFiles));
-		System.out.println(Arrays.deepToString(approvers));
 		
 		return validator.validateFiles(directoryMap, approvers, changedFiles) ? Constants.APPROVED : Constants.INSUFFICIENT_APPROVALS;
 	}

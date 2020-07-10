@@ -2,7 +2,6 @@ package com.twitter;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,7 +24,6 @@ public class ValidatorTest {
 		directoryMap.put(path, directory);
 		try {
 			validator.validateFiles(directoryMap, approvers.split(","), changedFiles.split(","));
-			fail();
 		} catch (Exception e) {
 			assertTrue("Check for null pointer", e instanceof NullPointerException);
 		}
