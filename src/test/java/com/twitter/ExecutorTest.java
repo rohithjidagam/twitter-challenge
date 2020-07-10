@@ -32,16 +32,17 @@ public class ExecutorTest {
 	public static Collection<Object[]> testData() {
 		return Arrays.asList(new Object[][] { { "mfox", "src/com/twitter/tweet/Tweet.java", "Approved" },
 				{ "eclarke,alovelace", "src/com/twitter/follow/Follow.java", "Approved" },
+				{ "alovelace", "src/com/twitter/follow/Follow.java", "Insufficient approvals" },
 				{ "eclarke", "src/com/twitter/follow/Follow.java", "Insufficient approvals" },
 				{ "alovelace,ghopper", "src/com/twitter/follow/Follow.java,src/com/twitter/user/User.java",
 						"Approved" },
 				{ "mfox", "src/com/twitter/message/Message.java,src/com/twitter/message/Message.java",
 						"Insufficient approvals" },
-				{ "eclarke", "src/com/twitter/message/Message.java", "Approved" }, 
+				{ "eclarke", "src/com/twitter/message/Message.java", "Approved" },
 				{ "ghopper", "src/com/twitter/message/Message.java", "Approved" },
 				{ "mfox", "src/com/twitter/message/Message.java", "Insufficient approvals" },
 				{ "jerry", "src/com/twitter/message/Message.java", "Insufficient approvals" },
-				{ "jerry,ghopper", "src/com/twitter/message/Message.java", "Approved" }});
+				{ "jerry,ghopper", "src/com/twitter/message/Message.java", "Approved" } });
 	}
 
 	@Test
