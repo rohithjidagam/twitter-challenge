@@ -1,6 +1,6 @@
 # Twitter Coding Challenge
 
-Java implementation of the Twitter Coding Challenge. (Windows, Java 8, Junit, Maven)
+Java implementation of the Twitter Coding Challenge. (Java 8, Junit, Maven)
 
 ## Overview
 
@@ -21,14 +21,17 @@ Mac: brew install maven
 4. Build:> "mvn clean install"
 5. Generate jar file:> "mvn clean package assembly:single" - this generates validate_approvals.jar in twitter-challenge\target folder
 
-Note: The jar file already generated in the target folder.
+Note: The jar file is already generated in the target folder.
+Main Class: Driver.java
+Integration Test: ExecutorTest.java
+Rest all are unit tests
 
 ## Testing
 
 * cd twitter-challenge
 * For automated testing, Run
 	1) mvn -Dtest="com.twitter.*Test" test
-* Integration Test: ExecutorTest.java, Rest all are unit tests
+
 * For manual testing, Run
   1) java -jar target/validate_approvals.jar --approvers alovelace,ghopper --changed-files src/com/twitter/follow/Follow.java,src/com/twitter/user/User.java
   2) java -jar target/validate_approvals.jar --approvers alovelace --changed-files src/com/twitter/follow/Follow.java
