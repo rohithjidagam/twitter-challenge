@@ -1,0 +1,5 @@
+com\twitter\UtilsTest.class
+com\twitter\DirectoryTest.class
+com\twitter\ValidatorTest.class
+com\twitter\ExecutorTest.class
+com\twitter\DependencyGeneratorTest.class
