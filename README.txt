@@ -2,19 +2,19 @@
 
 Java implementation of the Twitter Coding Challenge. (Java 8, Junit, Maven)
 
-## Overview
+# Overview
 
 At Twitter, authors of source code changes must get approval from the engineers responsible for the files affected by the change. 
 This challenge implements a simplified version of the approval system. 
 
-## Requirements
+# Requirements
 Java 8, Maven
 
 Maven installation:  
 Windows: https://mkyong.com/maven/how-to-install-maven-in-windows/
 Mac: brew install maven
 
-## Install
+# Install
 1. Clone the repo (twitter-challenge)
 2. cd twitter-challenge
 3. Note: The repo_root (given by Twitter) with src, tests and OWNERS file should reside in the twitter-challenge repo (like given in this zip file)
@@ -26,7 +26,7 @@ Main Class: Driver.java
 Integration Test: ExecutorTest.java
 Rest all are unit tests
 
-## Testing
+# Testing
 
 * cd twitter-challenge
 * For automated testing, Run
